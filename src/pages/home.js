@@ -83,7 +83,7 @@ const Home = () => {
 
   const [tipoTransaccion, setTipoTransaccion] = useState('');
   const [showSearchFields, setShowSearchFields] = useState(false);
-  const [ , setVentalocation] = useState('');
+  const [ ventaValue, setVentalocation] = useState('');
   const [wilayaValue, setWilayaValue] = useState('');
   const [communeValue, setCommuneValue] = useState('');
   const [marcaValue, setMarcaValue] = useState('');
@@ -168,7 +168,9 @@ const Home = () => {
       if (wilayaValue) {
         url += `&wilaya=${wilayaValue}`;
       }
-
+      if (ventaValue) {
+        url += `&venta=${ventaValue}`;
+      }
       if (communeValue) {
         url += `&commune=${communeValue}`;
       }
