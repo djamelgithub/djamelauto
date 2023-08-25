@@ -3,6 +3,7 @@
   "proxy": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
+   "homepage": "https://djamelgithub.github.io/djamelauto"
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.11.9",
