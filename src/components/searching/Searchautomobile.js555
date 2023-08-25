@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import { getDataAPI } from './../../utils/fetchData';
+import { useSelector, useDispatch } from 'react-redux';
+import AutomobileCard from '../postsCards/AutomobileCard';
+import { AUTOMOBILE_TYPES, } from '../../redux/actions/automobiles/automobileAction';
+
+
+const Searchautomobile = () => {
+
+  const { auth, homeAutomobiles } = useSelector(state => state);
+
+  const dispatch = useDispatch()
+
+  const [TipoTransaccion, setTipoTransaccion] = useState('');
+
+
+  const handleBuscar = async () => {
+    try {
+      // Realizar la solicitud para buscar en los campos "vente" y "location"
+      let url = `/obtenerautomobiles?limit=${homeAutomobiles.page * 9}`;
+      if (TipoTransaccion) {
+        url += `&ventalocation=${TipoTransaccion}`;
+      }
+
+      const response = await getDataAPI(url, auth.token);
+
+      dispatch({
+        type: AUTOMOBILE_TYPES.GET_AUTOMOBILES,
+        payload: { ...response.data, page: homeAutomobiles.page + 1 },
+      });
+
+      // Aquí puedes manejar la respuesta del servidor
+       ("Respuesta del servidor:", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const handleChangeInput = (e) => {
+    setTipoTransaccion(e.target.value);
+  };
+
+  return (
+    <div>
+      <form>
+        <div className="form-group col-md-3">
+          <select
+            placeholder="Année"
+            className="form-control"
+            value={TipoTransaccion}
+            onChange={handleChangeInput}
+          >
+            <option value="">Tipe de transacction</option>
+            <option value="Vente">Vente</option>
+            <option value="Location">Location</option>
+          </select>
+        </div>
+        <button type="button" onClick={handleBuscar} className="btn btn-primary">
+          Buscar
+        </button>
+      </form   >
+
+      <div className="post_thumb"  >
+
+        {
+          homeAutomobiles.automobiles.map(automobile => (
+            <AutomobileCard key={automobile._id} automobile={automobile} />
+          ))
+        }
+
+      </div>
+
+
+    </div>
+
+
+
+  )
+}
+
+export default Searchautomobile
